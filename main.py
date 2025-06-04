@@ -16,3 +16,12 @@ async def encaminhar_requisicao(request: Request):
         resposta = await client.post(url, json=body)
 
     return resposta.json()
+
+@app.get("/testar-conexao")
+async def testar():
+    try:
+        async with httpx.AsyncClient() as client:
+            r = await client.get("http://lucasof.com:5102")
+            return {"status": r.status_code, "ok": r.text[:100]}
+    except Exception as e:
+        return {"erro": str(e)}
